@@ -34,7 +34,9 @@ def filter_by_state(
         [{'state': 'CANCELED', 'date': '2024-01-01T10:00:00.000000'}]
     """
 
-    return [op for op in operations if op.get("state") == state]
+    # Convert to list to handle any iterable and ensure we return a list
+    operations_list = list(operations)
+    return [op for op in operations_list if op.get("state") == state]
 
 
 def sort_by_date(
@@ -63,8 +65,11 @@ def sort_by_date(
         [{'state': 'EXECUTED', 'date': '2024-01-01T10:00:00.000000'}, ...]
     """
 
+    # Convert to list to handle any iterable and ensure we return a list
+    operations_list = list(operations)
+    # Sort by date field, using empty string as fallback for missing dates
     return sorted(
-        operations,
+        operations_list,
         key=lambda op: op.get("date", ""),
         reverse=descending,
     )
