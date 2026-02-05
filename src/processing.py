@@ -20,7 +20,8 @@ def filter_by_state(
 
     Returns:
         A new list of dictionaries that contain only the operations
-        whose ``state`` field equals ``state``.
+        whose ``state`` field equals ``state``. Returns an empty list
+        if no operations match or if the input is empty.
 
     Example:
         >>> ops = [
@@ -51,7 +52,9 @@ def sort_by_date(
             if ``False``, sort from oldest to newest.
 
     Returns:
-        A new list of dictionaries sorted by the ``date`` key.
+        A new list of dictionaries sorted by the ``date`` key. Returns
+        an empty list if the input is empty. Operations without a ``date``
+        field are sorted last (or first if descending=False).
 
     Example:
         >>> ops = [
