@@ -44,7 +44,7 @@ def mask_account_card(description: str) -> str:
 
 
 def get_date(date_str: str) -> str:
-    """Convert ISO-like datetime string to DD.MM.YYYY format.
+    """Convert an ISO-like datetime string to DD.MM.YYYY format.
 
     Example:
         >>> get_date("2024-03-11T02:26:18.671407")
@@ -52,5 +52,6 @@ def get_date(date_str: str) -> str:
     """
 
     dt = datetime.fromisoformat(date_str)
-    return dt.strftime("%d.%m.%Y")
+    formatted = dt.strftime("%d.%m.%Y")
+    return formatted
 
