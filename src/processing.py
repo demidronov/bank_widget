@@ -21,6 +21,17 @@ def filter_by_state(
     Returns:
         A new list of dictionaries that contain only the operations
         whose ``state`` field equals ``state``.
+
+    Example:
+        >>> ops = [
+        ...     {"state": "EXECUTED", "date": "2024-03-11T02:26:18.671407"},
+        ...     {"state": "CANCELED", "date": "2024-01-01T10:00:00.000000"},
+        ...     {"state": "EXECUTED", "date": "2024-02-15T14:30:00.000000"},
+        ... ]
+        >>> filter_by_state(ops)
+        [{'state': 'EXECUTED', 'date': '2024-03-11T02:26:18.671407'}, ...]
+        >>> filter_by_state(ops, "CANCELED")
+        [{'state': 'CANCELED', 'date': '2024-01-01T10:00:00.000000'}]
     """
 
     return [op for op in operations if op.get("state") == state]
@@ -39,6 +50,17 @@ def sort_by_date(
 
     Returns:
         A new list of dictionaries sorted by the ``date`` key.
+
+    Example:
+        >>> ops = [
+        ...     {"state": "EXECUTED", "date": "2024-03-11T02:26:18.671407"},
+        ...     {"state": "EXECUTED", "date": "2024-01-01T10:00:00.000000"},
+        ...     {"state": "EXECUTED", "date": "2024-02-15T14:30:00.000000"},
+        ... ]
+        >>> sort_by_date(ops)
+        [{'state': 'EXECUTED', 'date': '2024-03-11T02:26:18.671407'}, ...]
+        >>> sort_by_date(ops, descending=False)
+        [{'state': 'EXECUTED', 'date': '2024-01-01T10:00:00.000000'}, ...]
     """
 
     return sorted(
