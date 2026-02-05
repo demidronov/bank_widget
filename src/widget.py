@@ -22,6 +22,9 @@ def mask_account_card(description: str) -> str:
     The string is not split into separate arguments; instead, the
     function extracts the last "word" as a number and decides whether
     it is a card or an account based on the text prefix.
+    Returns:
+        The original description with the number masked, using the
+        appropriate masking function for cards or accounts.
     """
 
     parts = description.split()
