@@ -18,6 +18,7 @@ def mask_account_card(description: str) -> str:
     - "Visa Platinum 7000792289606361"
     - "Maestro 7000792289606361"
     - "Account 73654108430135874305"
+    - "Счет 73654108430135874305"
 
     The string is not split into separate arguments; instead, the
     function extracts the last "word" as a number and decides whether
@@ -34,8 +35,8 @@ def mask_account_card(description: str) -> str:
     number = parts[-1]
     prefix = " ".join(parts[:-1])
 
-    # If description starts with "Account", treat it as a bank account.
-    if prefix.lower().startswith("account"):
+    # If description starts with "Account" (English) or "Счет" (Russian), treat it as a bank account.
+    if prefix.lower().startswith("account") or prefix.lower().startswith("счет"):
         masked_number = get_mask_account(number)
     else:
         masked_number = get_mask_card_number(number)
