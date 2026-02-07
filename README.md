@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Bank Widget Backend Utilities
 
 This project contains small, focused helper functions used to prepare
@@ -31,52 +32,60 @@ from src.masks import get_mask_account, get_mask_card_number
 
 print(get_mask_card_number("7000792289606362"))
 print(get_mask_account("40817810099910004312"))
+# Bank Widget
+
+Небольшой виджет для отображения банковских операций клиента. Проект содержит
+утилиты для маскирования номеров карт/счетов и простые функции обработки данных
+операций.
+
+Установка
+---------
+
+Клонируйте репозиторий и установите зависимости (если есть):
+
+```bash
+git clone https://github.com/demidronov/bank_widget.git
+cd bank_widget
+python -m venv .venv
+.\.venv\Scripts\activate  # Windows
+pip install -r requirements.txt  # при необходимости
 ```
 
-### `widget`
+При использовании Poetry:
 
-Functions for preparing values for display in the widget:
-
-- `mask_account_card(description: str) -> str` — masks the number in
-  a one-line description such as
-  `"Visa Platinum 7000792289606361"` or
-  `"Account 73654108430135874305"`.
-- `get_date(date_str: str) -> str` — converts a date-time string like
-  `"2024-03-11T02:26:18.671407"` to `"11.03.2024"`.
-
-Example:
-
-```python
-from src.widget import get_date, mask_account_card
-
-masked = mask_account_card("Visa Platinum 7000792289606361")
-print(masked)
-
-formatted = get_date("2024-03-11T02:26:18.671407")
-print(formatted)
+```bash
+poetry install --with lint
 ```
 
-### `processing`
+Использование
+-------------
 
-Functions for filtering and sorting operations data:
+В модуле `src.processing` реализованы две функции:
 
-- `filter_by_state(operations, state="EXECUTED") -> list` — returns
-  only operations whose `"state"` matches the given value.
-- `sort_by_date(operations, descending=True) -> list` — returns
-  operations sorted by the `"date"` field (by default from newest
-  to oldest).
+- `filter_by_state(operations, state='EXECUTED')` — возвращает новый список словарей,
+  содержащий только операции с полем `state`, равным переданному значению.
 
-Example:
+- `sort_by_date(operations, descending=True)` — возвращает новый список операций,
+  отсортированный по полю `date`. По умолчанию сортировка по убыванию (новые
+  операции в начале).
+
+Примеры
+-------
 
 ```python
 from src.processing import filter_by_state, sort_by_date
 
-operations = [
-    {"state": "EXECUTED", "date": "2024-03-11T02:26:18.671407"},
-    {"state": "CANCELED", "date": "2024-01-01T10:00:00.000000"},
+ops = [
+    {"id": 1, "state": "EXECUTED", "date": "2024-03-11T02:26:18.671407"},
+    {"id": 2, "state": "PENDING", "date": "2023-12-01T10:00:00"},
 ]
 
-executed = filter_by_state(operations)  # only EXECUTED operations
-sorted_ops = sort_by_date(executed)    # sorted by date, newest first
+executed = filter_by_state(ops)
+sorted_ops = sort_by_date(executed)
 ```
 
+Разработка
+---------
+
+Проект ведётся по GitFlow: есть ветки `main` и `develop`. Новая функциональность
+разрабатывается в ветках с префиксом `feature/`.

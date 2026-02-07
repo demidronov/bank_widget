@@ -1,7 +1,12 @@
-"""Data processing helpers for banking operations."""
+"""Data processing helpers for bank operations.
+
+This module provides filtering and sorting utilities used by the
+widget presentation layer and tests.
+"""
 
 from __future__ import annotations
 
+from datetime import datetime
 from typing import Any, Iterable, List, Mapping
 
 __all__ = ["filter_by_state", "sort_by_date"]
@@ -16,26 +21,13 @@ def filter_by_state(
     Args:
         operations: Iterable of operation dictionaries.
         state: Target state value for the ``state`` key, defaults to
-            ``\"EXECUTED\"``.
+            ``"EXECUTED"``.
 
     Returns:
         A new list of dictionaries that contain only the operations
-        whose ``state`` field equals ``state``. Returns an empty list
-        if no operations match or if the input is empty.
-
-    Example:
-        >>> ops = [
-        ...     {"state": "EXECUTED", "date": "2024-03-11T02:26:18.671407"},
-        ...     {"state": "CANCELED", "date": "2024-01-01T10:00:00.000000"},
-        ...     {"state": "EXECUTED", "date": "2024-02-15T14:30:00.000000"},
-        ... ]
-        >>> filter_by_state(ops)
-        [{'state': 'EXECUTED', 'date': '2024-03-11T02:26:18.671407'}, ...]
-        >>> filter_by_state(ops, "CANCELED")
-        [{'state': 'CANCELED', 'date': '2024-01-01T10:00:00.000000'}]
+        whose ``state`` field equals ``state``.
     """
 
-    # Convert to list to handle any iterable and ensure we return a list
     operations_list = list(operations)
     return [op for op in operations_list if op.get("state") == state]
 
@@ -46,34 +38,29 @@ def sort_by_date(
 ) -> List[Mapping[str, Any]]:
     """Return operations sorted by their ``date`` field.
 
+    The function attempts to parse ISO-formatted datetime strings found in
+    the ``date`` key. If parsing fails or the key is missing, the entry is
+    treated as very old/new depending on the requested order so that
+    entries with valid dates are ordered as expected.
+
     Args:
         operations: Iterable of operation dictionaries.
         descending: If ``True`` (default), sort from newest to oldest;
             if ``False``, sort from oldest to newest.
 
     Returns:
-        A new list of dictionaries sorted by the ``date`` key. Returns
-        an empty list if the input is empty. Operations without a ``date``
-        field are sorted last (or first if descending=False).
-
-    Example:
-        >>> ops = [
-        ...     {"state": "EXECUTED", "date": "2024-03-11T02:26:18.671407"},
-        ...     {"state": "EXECUTED", "date": "2024-01-01T10:00:00.000000"},
-        ...     {"state": "EXECUTED", "date": "2024-02-15T14:30:00.000000"},
-        ... ]
-        >>> sort_by_date(ops)
-        [{'state': 'EXECUTED', 'date': '2024-03-11T02:26:18.671407'}, ...]
-        >>> sort_by_date(ops, descending=False)
-        [{'state': 'EXECUTED', 'date': '2024-01-01T10:00:00.000000'}, ...]
+        A new list of dictionaries sorted by the parsed datetime values.
     """
 
-    # Convert to list to handle any iterable and ensure we return a list
     operations_list = list(operations)
-    # Sort by date field, using empty string as fallback for missing dates
-    return sorted(
-        operations_list,
-        key=lambda op: op.get("date", ""),
-        reverse=descending,
-    )
 
+    def _key(op: Mapping[str, Any]) -> datetime:
+        val = op.get("date")
+        if not isinstance(val, str):
+            return datetime.min if descending else datetime.max
+        try:
+            return datetime.fromisoformat(val)
+        except Exception:
+            return datetime.min if descending else datetime.max
+
+    return sorted(operations_list, key=_key, reverse=descending)
