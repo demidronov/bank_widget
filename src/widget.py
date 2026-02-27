@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from datetime import datetime
 
-from .masks import get_mask_account, get_mask_card_number
+from src.masks import get_mask_account, get_mask_card_number
 
 __all__ = ["mask_account_card", "get_date"]
 
