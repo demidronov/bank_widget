@@ -36,7 +36,6 @@ ENV/
 .mypy_cache/
 .coverage
 coverage.xml
-htmlcov/
 
 # IDE / editor settings
 .idea/
