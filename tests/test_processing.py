@@ -87,7 +87,7 @@ def test_filter_by_state_default() -> None:
                 {"id": 2, "date": "2024-01-01"},
             ],
             True,
-            [1, 2],  # missing date treated as empty string, sorts first
+            [2, 1],  # missing date treated as empty string and moves last in reverse order
         ),
         (
             [],
