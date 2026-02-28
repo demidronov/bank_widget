@@ -18,6 +18,7 @@ def mask_account_card(description: str) -> str:
     - "Visa Platinum 7000792289606361"
     - "Maestro 7000792289606361"
     - "Account 73654108430135874305"
+    - "Счет 73654108430135874305"
 
     The string is not split into separate arguments; instead, the
     function extracts the last "word" as a number and decides whether
