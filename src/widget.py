@@ -35,8 +35,10 @@ def mask_account_card(description: str) -> str:
     number = parts[-1]
     prefix = " ".join(parts[:-1])
 
-    # If description starts with "Account" or "Счет", treat it as a bank account.
-    if prefix.lower().startswith("account") or prefix.lower().startswith("счет"):
+    # If description starts with "Account" or Russian variants of "Счёт",
+    # treat it as a bank account.
+    prefix_lower = prefix.lower().strip()
+    if any(prefix_lower.startswith(p) for p in ("account", "счет", "счёт")):
         masked_number = get_mask_account(number)
     else:
         masked_number = get_mask_card_number(number)
