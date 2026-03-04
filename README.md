@@ -112,3 +112,27 @@ Provides widget-related utilities:
 Transaction processing utilities for the bank widget:
 - `filter_by_state()` - Filters transactions by state
 - `sort_by_date()` - Sorts transactions by date
+
+### decorators.py
+Содержит полезные декораторы для трассировки и логирования выполнения функций.
+
+- `log(filename=None)` — декоратор для автоматического логирования вызовов функций.
+  - Если `filename` указан, логи добавляются в указанный файл.
+  - Если `filename` не указан, логи выводятся в консоль.
+  - В лог включается временная метка, имя функции, входные аргументы, результат или информация об ошибке.
+
+Пример использования:
+
+```python
+from src.decorators import log
+
+@log()
+def add(a, b):
+    return a + b
+
+@log(filename="app.log")
+def do_work(x):
+    if x < 0:
+        raise ValueError("negative")
+    return x * 2
+```
