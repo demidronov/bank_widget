@@ -6,21 +6,31 @@ Backend utilities for a bank widget that displays recent successful transactions
 
 ```
 .
-├── src/                    # Source code
+├── src/                      # Source code
 │   ├── __init__.py
-│   ├── generators.py      # Generators for transaction data processing
-│   ├── masks.py           # Card and account masking utilities
-│   ├── processing.py      # Transaction processing functions
-│   └── widget.py          # Widget date formatting and masking
-├── tests/                 # Unit tests
+│   ├── decorators.py         # Decorators for logging function execution
+│   ├── external_api.py       # External API utilities
+│   ├── file_readers.py       # Functions for reading CSV and XLSX files
+│   ├── generators.py         # Generators for transaction data processing
+│   ├── logging_config.py     # Logging configuration
+│   ├── masks.py              # Card and account masking utilities
+│   ├── processing.py         # Transaction processing functions
+│   ├── utils.py              # Utility functions
+│   └── widget.py             # Widget date formatting and masking
+├── tests/                    # Unit tests
 │   ├── __init__.py
-│   ├── conftest.py        # Pytest fixtures and configuration
-│   ├── test_generators.py # Tests for generators module
-│   ├── test_masks.py      # Tests for masks module
-│   ├── test_processing.py # Tests for processing module
-│   └── test_widget.py     # Tests for widget module
-├── pyproject.toml         # Project configuration
-└── README.md              # This file
+│   ├── conftest.py           # Pytest fixtures and configuration
+│   ├── test_decorators.py    # Tests for decorators module
+│   ├── test_external_api.py  # Tests for external API module
+│   ├── test_file_readers.py  # Tests for file_readers module
+│   ├── test_generators.py    # Tests for generators module
+│   ├── test_masks.py         # Tests for masks module
+│   ├── test_processing.py    # Tests for processing module
+│   ├── test_utils.py         # Tests for utils module
+│   ├── test_widget.py        # Tests for widget module
+│   └── README.md             # Tests documentation
+├── pyproject.toml            # Project configuration
+└── README.md                 # This file
 ```
 
 ## Installation
@@ -51,14 +61,18 @@ The HTML report will be generated in the `htmlcov/` directory.
 ## Test Structure
 
 - `conftest.py` - Shared pytest fixtures for test data
+- `test_decorators.py` - Tests for the `decorators` module
+- `test_external_api.py` - Tests for the `external_api` module
+- `test_file_readers.py` - Tests for the `file_readers` module
 - `test_generators.py` - Tests for the `generators` module
 - `test_masks.py` - Tests for the `masks` module
 - `test_processing.py` - Tests for the `processing` module
+- `test_utils.py` - Tests for the `utils` module
 - `test_widget.py` - Tests for the `widget` module
 
 ## Coverage
 
-The project maintains **100% test coverage** for all source modules.
+The project maintains **97.58% test coverage** for all source modules.
 
 ## Test Features
 
@@ -113,7 +127,37 @@ Transaction processing utilities for the bank widget:
 - `filter_by_state()` - Filters transactions by state
 - `sort_by_date()` - Sorts transactions by date
 
-### decorators.py
+### file_readers.py
+Provides functions for reading financial transactions from various file formats:
+- `read_transactions_from_csv(file_path)` - Reads transactions from CSV files
+- `read_transactions_from_xlsx(file_path)` - Reads transactions from Excel files
+
+Both functions accept a file path (string or Path object) and return a list of dictionaries representing transactions.
+
+#### Example Usage
+
+```python
+from src.file_readers import read_transactions_from_csv, read_transactions_from_xlsx
+
+# Read from CSV file
+csv_transactions = read_transactions_from_csv("transactions.csv")
+for transaction in csv_transactions:
+    print(transaction)
+
+# Read from Excel file
+xlsx_transactions = read_transactions_from_xlsx("transactions.xlsx")
+for transaction in xlsx_transactions:
+    print(transaction)
+```
+
+#### Features
+- **Automatic format detection**: Automatically detects and handles CSV and XLSX formats
+- **Path flexibility**: Accepts both string paths and `pathlib.Path` objects
+- **Type hints**: Full type annotations for better IDE support and type checking
+- **Error handling**: Comprehensive error handling with informative exception messages
+- **Data conversion**: Automatically converts file data to list of dictionaries for easy processing
+
+
 Содержит полезные декораторы для трассировки и логирования выполнения функций.
 
 - `log(filename=None)` — декоратор для автоматического логирования вызовов функций.

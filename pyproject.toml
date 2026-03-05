@@ -10,6 +10,8 @@ packages = [{ include = "src" }]
 python = ">=3.10,<4.0"
 requests = "^2.31.0"
 python-dotenv = "^1.0.0"
+pandas = "^2.0.0"
+openpyxl = "^3.1.0"
 
 [tool.poetry.group.lint.dependencies]
 flake8 = "*"
@@ -20,6 +22,7 @@ mypy = "*"
 [tool.poetry.group.test.dependencies]
 pytest = "*"
 pytest-cov = "*"
+pytest-mock = "*"
 
 [build-system]
 requires = ["poetry-core"]
