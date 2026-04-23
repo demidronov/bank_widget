@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
+import re
 from typing import Any, Iterable, List, Mapping
 
-__all__ = ["filter_by_state", "sort_by_date"]
+__all__ = ["filter_by_state", "sort_by_date", "process_bank_search", "process_bank_operations"]
 
 
 def filter_by_state(
@@ -76,4 +77,76 @@ def sort_by_date(
         key=lambda op: op.get("date", ""),
         reverse=descending,
     )
+
+
+def process_bank_search(
+    data: list[dict[str, Any]],
+    search: str,
+) -> list[dict[str, Any]]:
+    """Return operations that match the search string in their description.
+
+    Uses regular expressions to search for the pattern in the ``description``
+    field of each operation.
+
+    Args:
+        data: List of operation dictionaries.
+        search: Regular expression pattern to search for in descriptions.
+
+    Returns:
+        A new list of dictionaries that contain the search pattern in their
+        ``description`` field. Returns an empty list if no operations match
+        or if the input is empty.
+
+    Example:
+        >>> ops = [
+        ...     {"description": "Открытие вклада", "amount": 40542},
+        ...     {"description": "Перевод с карты", "amount": 130},
+        ... ]
+        >>> process_bank_search(ops, "вклада")
+        [{'description': 'Открытие вклада', 'amount': 40542}]
+    """
+
+    result = []
+    for operation in data:
+        description = operation.get("description", "")
+        if re.search(search, description, re.IGNORECASE):
+            result.append(operation)
+    return result
+
+
+def process_bank_operations(
+    data: list[dict[str, Any]],
+    categories: list[str],
+) -> dict[str, int]:
+    """Count operations by categories based on their description.
+
+    Searches for each category string in the ``description`` field of
+    operations. An operation is counted for a category if the category
+    string appears in its description (case-insensitive).
+
+    Args:
+        data: List of operation dictionaries.
+        categories: List of category keywords to search for in descriptions.
+
+    Returns:
+        A dictionary where keys are category names and values are counts
+        of operations containing that category keyword in their description.
+
+    Example:
+        >>> ops = [
+        ...     {"description": "Открытие вклада"},
+        ...     {"description": "Перевод с карты на карту"},
+        ...     {"description": "Открытие счета"},
+        ... ]
+        >>> process_bank_operations(ops, ["вклада", "перевод"])
+        {'вклада': 1, 'перевод': 1}
+    """
+
+    result = {category: 0 for category in categories}
+    for operation in data:
+        description = operation.get("description", "").lower()
+        for category in categories:
+            if category.lower() in description:
+                result[category] += 1
+    return result
 

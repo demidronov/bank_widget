@@ -1,0 +1,77 @@
+[
+  {
+    "id": 1,
+    "date": "2019-12-08T02:26:18.671407",
+    "description": "Открытие вклада",
+    "from": "Account 4321",
+    "to": "Account 4321",
+    "state": "EXECUTED",
+    "operationAmount": {
+      "amount": "40542",
+      "currency": {
+        "name": "RUB",
+        "code": "RUB"
+      }
+    }
+  },
+  {
+    "id": 2,
+    "date": "2019-11-12T02:26:18.671407",
+    "description": "Перевод с карты на карту",
+    "from": "MasterCard 7771 27** **** 3727",
+    "to": "Visa Platinum 1293 38** **** 9203",
+    "state": "EXECUTED",
+    "operationAmount": {
+      "amount": "130",
+      "currency": {
+        "name": "USD",
+        "code": "USD"
+      }
+    }
+  },
+  {
+    "id": 3,
+    "date": "2018-07-18T02:26:18.671407",
+    "description": "Перевод организации",
+    "from": "Visa Platinum 7492 65** **** 7202",
+    "to": "Account 0034",
+    "state": "EXECUTED",
+    "operationAmount": {
+      "amount": "8390",
+      "currency": {
+        "name": "RUB",
+        "code": "RUB"
+      }
+    }
+  },
+  {
+    "id": 4,
+    "date": "2018-06-03T02:26:18.671407",
+    "description": "Перевод со счета на счет",
+    "from": "Account 2935",
+    "to": "Account 4321",
+    "state": "EXECUTED",
+    "operationAmount": {
+      "amount": "8200",
+      "currency": {
+        "name": "EUR",
+        "code": "EUR"
+      }
+    }
+  },
+  {
+    "id": 5,
+    "date": "2020-01-15T02:26:18.671407",
+    "description": "Открытие счета",
+    "from": "Account 5555",
+    "to": "Account 5555",
+    "state": "CANCELED",
+    "operationAmount": {
+      "amount": "5000",
+      "currency": {
+        "name": "RUB",
+        "code": "RUB"
+      }
+    }
+  }
+]
